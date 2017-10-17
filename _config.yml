@@ -1,0 +1,17 @@
+# Site settings
+title: A coder's blog
+email: sf20160321@163.com
+description: It is never too old to code!
+author: Le Song
+url: sf20160321.github.io
+github: https://github.com/sf20160321/
+
+# Build settings
+permalink: /posts/:categories/:title.html
+
+
+markdown:    kramdown
+highlighter: rouge
+
+kramdown:
+  toc_levels: 2..3

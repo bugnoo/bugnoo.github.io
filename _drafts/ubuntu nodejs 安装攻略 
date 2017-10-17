@@ -1,0 +1,95 @@
+os: ubuntu 16.04LTS
+nodejs: v6.9.2LTS
+
+NodeJS 二进制文件的部署
+
+下载安装 NodeJS
+1: 官网下载(https://nodejs.org/en/)NodeJS二进制文件，目前稳定版本为 v6.9.2LTS for linux x86。
+2: 下载后的文件为 node-v6.9.2-linux-x86.tar.xz。解压缩到 /opt/目录下。
+3: 进入/opt/node-v6.9.2-linux-x86/bin 目录，执行 ./node -v 可以看到版本好为 v6.9.2。说明 node 程序正常。
+
+
+
+设置环境变量
+4.1: 为了在系统的任何目录下都可以运行 node 命令，需要设置环境变量。第一种方式是采用软链接方式将node 命令链接到已有环境变量的目录中：
+       (1) 终端输入命令： echo $PATH， 可以获得系统默认(/etc/environment)的环境变量值：
+                /usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:
+       (2) 将 /opt/node-v6.9.2-linux-x86/bin 中的命令 node 和 npm 软链接到 /usr/bin 目录下
+                ln -s /opt/node-v6.9.2-linux-x86/bin/node /usr/bin/node
+                ln -s /opt/node-v6.9.2-linux-x86/bin/npm /usr/bin/npm
+           注意：软链接命令一定要是目录的完整路径，否则在目标目录下的软链接命令显示已断。
+
+4.2: 第二种方式是终端输入命令：gedit /etc/enviroment，打开系统级环境变量文件。将 Node 命令所在的目录设置成PATH值，注意多个目录用分号分割。
+           PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/node-v6.9.2-linux-x86/bin" 
+       然后在终端输入命令 source /etc/environment, 或者重新启动电脑生效设置。
+       通过source命令只能在当前终端窗口中立即生效 node 命令，打开新终端窗口仍然会提示找不到 node 命令，为此需要重新启动电脑即可。
+       这种方法要注意不能将PATH中的默认路径删除，否则会出现系统无法登录的错误。为此建议使用第三种方式。
+
+4.3:   终端输入命令：gedit /etc/profile,
+       在文件最后最后追加
+	export NODE_HOME=/opt/node-v6.9.2-linux-x86
+	export PATH=$PATH:$NODE_HOME/bin
+	export NODE_PATH=$NODE_HOME/lib/node_modules  //见5.1  
+        运行 source /etc/profile
+
+
+npm 安装 node module
+5.1 全局安装命令： npm  install [module_name] -g
+    全局模块将安装在 /opt/node-v6.9.2-linux-x86/lib/node_modules/下
+    注意：全局安装的模块如果要在其他路径下引用 require([modules_name]),会出现错误 Error: Cannot find module '[module_name]'。此时必须将全局模块的路径 .../lib/node_modules 引入到环境变量中。推荐4.3中的方法。
+
+
+
+
+安装的模块包括： 如果npm 下载慢，使用淘宝镜像命令： npm install -g [module_name] --registry=http://registry.npm.taobao.org
+
+webpack
+css-loader //处理css中路径引用等问题
+style-loader //动态把样式写入css
+less
+less-loader //less编译器
+file-loader
+url-loader //图片路径处理
+babel-loader
+
+react
+react-dom
+
+babel-core
+babel-preset-react   //react jsx 转码规则
+babel-preset-es2015  //ES2015转码规则
+// ES7不同阶段语法提案的转码规则（共有4个阶段），选装一个
+babel-preset-stage-0
+babel-preset-stage-1
+babel-preset-stage-2
+babel-preset-stage-3
+
+
+
+
+问题1： babel-loader 在全局模块下，webpack 如何引入全局模块，默认情况下 webpack.config.js 中的 module-loaders 中的 loader 是在当前工程目录下的 node_modules 中寻找加载器。
+
+用到 resolveLoader
+
+http://webpack.github.io/docs/configuration.html#module-loaders
+
+ IMPORTANT: The loaders here are resolved relative to the resource which they are applied to. This means they are not resolved relative to the configuration file. If you have loaders installed from npm and your node_modules folder is not in a parent folder of all source files, webpack cannot find the loader. You need to add the node_modules folder as an absolute path to the resolveLoader.root option. (resolveLoader: { root: path.join(__dirname, "node_modules") })
+
+resolveLoader: { root: "/opt/node-v6.9.2-linux-x86/lib/node_modules" },
+	
+
+问题2： webpack 打包程序中引用公共模块的情况
+
+比如 webpack 需要打包的 JS 文件中 require('react')，而react 是 node 全局安装的，模块不在当前的工程目录下，因此默认找不到，需要使用  resolve.root 配置全局模块的绝对路径。
+
+http://webpack.github.io/docs/configuration.html#resolve
+resolve.root
+
+The directory (absolute path) that contains your modules. May also be an array of directories. This setting should be used to add individual directories to the search path.
+
+    It must be an absolute path! Don’t pass something like ./app/modules.
+
+resolve: {root: '/opt/node-v6.9.2-linux-x86/lib/node_modules'},
+
+
+

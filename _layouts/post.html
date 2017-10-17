@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title></title>
+		<link rel="stylesheet" media="all" href="/static/css/normalize.css">
+		<link rel="stylesheet" media="all" href="/static/css/web.css">
+		<link rel="stylesheet" media="all" href="/static/css/rouge.css">
+		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/static/js/github.bundle.min.js"></script>
+		<script type="text/javascript" src="/static/js/post.js"></script>
+	</head>
+	
+	<body lang="zh-cn">
+		<div class="navbar">
+			<div class="container">
+				<div class="focus-catelog"></div>
+				<ul class="menu">
+					<li>
+						<a href="/index.html"><span class="menu-text">Home</span><i class="menu-icon icon-home"></i></a>
+					</li>
+					<li>
+						<a><span class="menu-text">夜间模式</span><i class="menu-icon icon-moon"></i></a>
+					</li>
+					<li class="aside-menu">
+						<a><span class="menu-text"></span><i class="menu-icon icon-bars"></i></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="content">
+			<div class="container">
+				<div class="article">
+					<h1 class="head">{{ page.heading }}</h1>
+					<div id="postId" style="display: none;">{{ page.date | date: "%Y-%m-%d" | append: ' ' | append: page.title }}</div>
+					<div class="meta">
+						<span class="item word">字数 {{ page.content | number_of_words }} </span>
+						<span class="item view">阅读 2945</span>
+						<span class="item issue">评论 <span class="issue-count">0</span></span>
+					</div>
+						
+					<!-- 文章内容 -->
+					<div class="text">
+						{{content}}
+					</div>
+
+					<div class="meta date">&bull; <span>发表于 {{ page.date | date: "%Y-%m-%d" }}</span> &bull;</div>
+											
+
+					<!--评论 -->
+					<div class="comment">
+						<div class="new disabled">
+							<div class="avatar"><img src="/static/image/github-avatar.png"></div>
+							<div class="wrap">
+								<div class="textarea" contenteditable="true"></div>
+								<a class="reply-btn">回复</a>
+							</div>
+						</div>
+						<div class="list">
+							<div class="head"><span class="issue-count">0</span> 条评论</div>
+							<ul>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="aside">
+				<div class="container">
+					<div class="head"><i class="icon-list-ul"></i>Catelog</div>
+				</div>
+			</div>			
+		</div>
+		<div class="sign">
+			<div class="container">
+				<div class="head">
+					<span><i class="icon-github"></i> GitHub 登录</span>
+				</div>
+				<div class="form">
+						<div class="input-prepend restyle">
+							<input placeholder="Username or email address" type="text" id="username">
+							<i class="icon-user"></i>
+						</div>
+						<div class="input-prepend">
+							<input placeholder="Password" type="password" id="password">
+							<i class="icon-lock"></i>
+						</div>
+						<div class="option">
+							<input type="checkbox" value="true" checked="checked" name="session[remember_me]" id="session_remember_me">
+							<a class="remember">记住我</a>
+							<a class="forget" href="https://github.com/password_reset" target="_blank">忘记密码?</a>
+							<div class="clear"></div>
+						</div>
+						<div class="submit">
+							<a class="signin-btn">登录</a>
+							<a class="signup-btn" href="https://github.com/join?source=header-home" target="_blank">注册</a>
+							<div class="clear"></div>
+						</div>
+				</div>
+				<div class="more-info">
+					本博客需要使用 GitHub 账户发表评论。
+				</div>
+				<div class="close">
+					<i class="icon-close"></i>
+				</div>
+			</div>
+		</div>
+		
+		<div class="tooltip">
+			<div class="inner">
+				<i class="icon-font"></i>
+				<span></span>
+			</div>
+		</div>
+	</body>
+</html>
+
+

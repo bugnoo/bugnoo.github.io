@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title></title>
+		<link rel="stylesheet" media="all" href="/static/css/normalize.css">
+		<link rel="stylesheet" media="all" href="/static/css/web.css">
+		<link rel="stylesheet" media="all" href="/static/css/rouge.css">
+		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/static/js/github.bundle.min.js"></script>
+		<script type="text/javascript" src="/static/js/category.js"></script>
+	</head>
+
+	<body lang="zh-CN">
+		<div class="navbar">
+			<div class="container">
+				<div class="search">
+					<form target="_blank" action="/search" accept-charset="UTF-8" method="get">
+						<input name="utf8" type="hidden" value="?">
+						<input type="text" name="q" id="q" value="" placeholder="搜索" class="search-input">
+						<a class="search-btn" href="javascript:void(null)"><i class="icon-search"></i></a>
+					</form>
+				</div>
+				<ul class="menu">
+					<li class="active">
+						<a><span class="menu-text">Home</span><i class="menu-icon icon-home"></i></a>
+					</li>
+					<li>
+						<a><span class="menu-text">夜间模式</span><i class="menu-icon icon-moon"></i></a>
+					</li>
+					<li class="aside-menu">
+						<a><span class="menu-text"></span><i class="menu-icon icon-bars"></i></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="content">
+			<div class="container">
+				<ul class="article-list"></ul>
+			</div>
+			<div class="aside">
+				<div class="container">
+					<div class="head"><i class="icon-sitemap"></i>Category</div>
+					<ul class="list">
+						<li id="all"><a class="active"><span class="name">All</span><span class="num">{{site.posts.size}}</span></a></li>
+						{% for category in site.categories %} 			
+						<li id="{{ category[0]}}"><a><span class="name">{{ category[0] | join: "/" }}</span><span class="num">{{ category[1].size }}</span></a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
